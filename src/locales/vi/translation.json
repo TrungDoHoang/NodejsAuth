@@ -1,0 +1,35 @@
+{
+  "welcome": "Chào mừng đến với ứng dụng của chúng tôi",
+  "errors": {
+    "validation": {
+      "validationError": "Lỗi kiểm tra dữ liệu",
+      "required": "{{field}} là bắt buộc",
+      "email": "Vui lòng cung cấp địa chỉ email hợp lệ",
+      "minLength": "{{field}} phải có ít nhất {{min}} ký tự",
+      "maxLength": "{{field}} không được vượt quá {{max}} ký tự",
+      "invalidField": "{{field}} không hợp lệ",
+      "passwordRequirements": "Mật khẩu phải có ít nhất 8 ký tự",
+      "unexpectedFields": "Các trường không được phép: {{fields}}"
+    },
+    "auth": {
+      "missingToken": "Thiếu token xác thực",
+      "userNotFoundOrInactive": "Không tìm thấy người dùng hoặc tài khoản không hoạt động",
+      "invalidOrExpiredToken": "Token không hợp lệ hoặc đã hết hạn",
+      "authenticationError": "Đã xảy ra lỗi trong quá trình xác thực",
+      "userNotAuthenticated": "Người dùng chưa được xác thực",
+      "insufficientPermissions": "Truy cập bị từ chối: Không đủ quyền",
+      "userAlreadyExists": "Tên người dùng hoặc email đã tồn tại",
+      "invalidCredentials": "Tên người dùng hoặc mật khẩu không hợp lệ",
+      "refreshTokenRequired": "Refresh token là bắt buộc",
+      "logoutSuccess": "Đăng xuất thành công"
+    },
+    "server": {
+      "internal": "Lỗi máy chủ nội bộ"
+    }
+  },
+  "success": {
+    "created": "{{resource}} đã được tạo thành công",
+    "updated": "{{resource}} đã được cập nhật thành công",
+    "deleted": "{{resource}} đã được xóa thành công"
+  }
+}

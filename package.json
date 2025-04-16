@@ -1,0 +1,57 @@
+{
+  "name": "auth-api",
+  "version": "1.0.0",
+  "description": "RESTful API with TypeScript, authentication and role-based access control",
+  "main": "dist/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist/server.js",
+    "dev": "nodemon src/server.ts",
+    "build": "tsc",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:seed": "sequelize-cli db:seed:all",
+    "sync-db": "ts-node src/scripts/syncDatabase.ts"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "restful",
+    "api",
+    "authentication",
+    "jwt",
+    "sequelize",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/uuid": "^10.0.0",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "i18next": "^24.2.3",
+    "i18next-fs-backend": "^2.6.0",
+    "i18next-http-middleware": "^3.7.2",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.14.0",
+    "sequelize": "^6.37.7",
+    "uuid": "^11.1.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.14.1",
+    "nodemon": "^3.1.9",
+    "sequelize-cli": "^6.6.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3"
+  }
+}
