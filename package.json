@@ -8,8 +8,6 @@
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
     "build": "tsc",
-    "db:migrate": "sequelize-cli db:migrate",
-    "db:seed": "sequelize-cli db:seed:all",
     "sync-db": "ts-node src/scripts/syncDatabase.ts"
   },
   "keywords": [

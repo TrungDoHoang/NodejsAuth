@@ -1,7 +1,7 @@
 import { UserAttributes } from "@/types";
 import bcrypt from "bcryptjs";
 import { DataTypes, Model, Optional } from "sequelize";
-import sequelize from "../config/database";
+import sequelize from "@/config/database";
 
 interface UserCreationAttributes
   extends Optional<UserAttributes, "id" | "isActive"> {}
@@ -68,6 +68,7 @@ User.init(
   {
     sequelize,
     modelName: "User",
+    tableName: "users",
     hooks: {
       beforeCreate: async (user: User) => {
         if (user.password) {

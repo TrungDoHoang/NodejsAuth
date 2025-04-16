@@ -3,9 +3,11 @@ import { z } from "zod";
 // Register DTO
 export const registerSchema = z
   .object({
-    username: z.string().min(3, { message: "validation.minLength" }),
-    email: z.string().email({ message: "validation.email.invalid" }),
-    password: z.string().min(8, { message: "validation.password.minLength" }),
+    username: z.string().min(3, { message: "errors.validation.minLength" }),
+    email: z.string().email({ message: "errors.validation.email.invalid" }),
+    password: z
+      .string()
+      .min(6, { message: "errors.validation.passwordRequirements" }),
   })
   .strict();
 
@@ -18,7 +20,7 @@ export const loginSchema = z
     password: z
       .string()
       .nonempty({ message: "errors.validation.required" })
-      .min(6, { message: "errors.validation.minLength" }),
+      .min(6, { message: "errors.validation.passwordRequirements" }),
   })
   .strict();
 

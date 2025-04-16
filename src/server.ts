@@ -1,13 +1,11 @@
-import express, { Request, Response, NextFunction } from "express";
-import cors from "cors";
-import helmet from "helmet";
-import morgan from "morgan";
-import dotenv from "dotenv";
-import routes from "@/routes";
-import sequelize from "@/config/database";
-import { Role } from "@/models";
-import middleware from "i18next-http-middleware";
 import i18next from "@/config/i18n";
+import routes from "@/routes";
+import cors from "cors";
+import dotenv from "dotenv";
+import express, { NextFunction, Request, Response } from "express";
+import helmet from "helmet";
+import middleware from "i18next-http-middleware";
+import morgan from "morgan";
 
 // Load environment variables
 dotenv.config();
@@ -31,16 +29,8 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 // API Routes
 app.use("/api", routes);
 
-// Root route
-app.get("/", (req: Request, res: Response) => {
-  res.json({
-    message: "Welcome to Auth API",
-    version: "1.0.0",
-  });
-});
-
 // Error handling middleware
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err.stack);
   res.status(500).json({
     success: false,
@@ -52,23 +42,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 // Initialize database and start server
 const initializeApp = async () => {
   try {
-    // Create default roles if they don't exist
-    const defaultRoles = ["admin", "user"];
-    defaultRoles.forEach(async (roleName) => {
-      const [_role, created] = await Role.findOrCreate({
-        where: { name: roleName },
-        defaults: {
-          name: roleName,
-          description: `${
-            roleName.charAt(0).toUpperCase() + roleName.slice(1)
-          } role`,
-        },
-      });
-
-      if (created) {
-        console.log(`Created default role: ${roleName}`);
-      }
-    });
     // Start server
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);

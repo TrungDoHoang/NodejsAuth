@@ -24,7 +24,7 @@ export abstract class BaseRepository<T extends Model> {
     return this.model.findByPk(id, options);
   }
 
-  async findOne(options: NonNullFindOptions<Attributes<T>>): Promise<T | null> {
+  async findOne(options: FindOptions<Attributes<T>>): Promise<T | null> {
     return this.model.findOne(options);
   }
 

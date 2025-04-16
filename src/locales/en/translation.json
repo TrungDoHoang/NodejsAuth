@@ -8,7 +8,7 @@
       "minLength": "{{field}} must be at least {{min}} characters",
       "maxLength": "{{field}} must be at most {{max}} characters",
       "invalidField": "Invalid {{field}}",
-      "passwordRequirements": "Password must be at least 8 characters",
+      "passwordRequirements": "Password must be at least 6 characters",
       "unexpectedFields": "Unexpected fields: {{fields}}"
     },
     "auth": {

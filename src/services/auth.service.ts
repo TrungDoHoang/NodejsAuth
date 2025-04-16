@@ -29,7 +29,6 @@ export class AuthService {
       where: {
         [Op.or]: [{ username }, { email }],
       },
-      rejectOnEmpty: true,
     });
 
     if (existingUser) {
@@ -86,7 +85,7 @@ export class AuthService {
           through: { attributes: [] },
         },
       ],
-      rejectOnEmpty: true,
+      // rejectOnEmpty: true
     });
 
     // Check if user exists
@@ -163,7 +162,7 @@ export class AuthService {
     // Find user with this refresh token
     const user = await this.userRepository.findOne({
       where: { refreshToken },
-      rejectOnEmpty: true,
+      // rejectOnEmpty: true
     });
 
     if (user) {
@@ -192,7 +191,7 @@ export class AuthService {
         model: Role,
         through: { attributes: [] },
       },
-      rejectOnEmpty: true,
+      // rejectOnEmpty: true
     });
 
     if (!user) {

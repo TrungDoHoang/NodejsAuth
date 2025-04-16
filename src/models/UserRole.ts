@@ -1,17 +1,13 @@
 import { Model, DataTypes, Optional } from "sequelize";
-import sequelize from "../config/database";
-import { UserRoleAttributes } from "../types";
+import sequelize from "@/config/database";
+import { UserRoleAttributes } from "@/types";
 import User from "./User";
 import Role from "./Role";
 
-interface UserRoleCreationAttributes
-  extends Optional<UserRoleAttributes, "id"> {}
-
 class UserRole
-  extends Model<UserRoleAttributes, UserRoleCreationAttributes>
+  extends Model<UserRoleAttributes, UserRoleAttributes>
   implements UserRoleAttributes
 {
-  public id!: string;
   public userId!: string;
   public roleId!: string;
 
@@ -21,13 +17,9 @@ class UserRole
 
 UserRole.init(
   {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
     userId: {
       type: DataTypes.UUID,
+      primaryKey: true,
       references: {
         model: User,
         key: "id",
@@ -35,6 +27,7 @@ UserRole.init(
     },
     roleId: {
       type: DataTypes.UUID,
+      primaryKey: true,
       references: {
         model: Role,
         key: "id",
@@ -44,11 +37,27 @@ UserRole.init(
   {
     sequelize,
     modelName: "UserRole",
+    tableName: "user_role",
+    // Add unique constraint to ensure each user-role pair is unique
+    indexes: [
+      {
+        unique: true,
+        fields: ["userId", "roleId"],
+      },
+    ],
   }
 );
 
 // Set up associations
-User.belongsToMany(Role, { through: UserRole, foreignKey: "userId" });
-Role.belongsToMany(User, { through: UserRole, foreignKey: "roleId" });
+User.belongsToMany(Role, {
+  through: UserRole,
+  foreignKey: "userId",
+  onDelete: "CASCADE",
+});
+Role.belongsToMany(User, {
+  through: UserRole,
+  foreignKey: "roleId",
+  onDelete: "CASCADE",
+});
 
 export default UserRole;
