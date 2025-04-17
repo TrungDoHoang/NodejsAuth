@@ -1,5 +1,5 @@
-import User from "./User";
-import Role from "./Role";
-import UserRole from "./UserRole";
+import User from "./user.model";
+import Role from "./role.model";
+import UserRole from "./userRole.model";
 
 export { User, Role, UserRole };

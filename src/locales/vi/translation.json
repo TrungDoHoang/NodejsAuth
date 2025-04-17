@@ -26,6 +26,9 @@
       "logoutSuccess": "Đăng xuất thành công",
       "oldPasswordInvalid": "Mật khẩu cũ không hợp lệ"
     },
+    "user": {
+      "userNotDeleted": "Người dùng không bị xóa"
+    },
     "server": {
       "internal": "Lỗi máy chủ nội bộ"
     }

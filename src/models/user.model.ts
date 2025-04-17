@@ -1,10 +1,7 @@
-import { UserAttributes } from "@/types";
-import bcrypt from "bcryptjs";
-import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "@/config/database";
-
-interface UserCreationAttributes
-  extends Optional<UserAttributes, "id" | "isActive"> {}
+import { UserAttributes, UserCreationAttributes } from "@/types";
+import bcrypt from "bcryptjs";
+import { DataTypes, Model } from "sequelize";
 
 class User
   extends Model<UserAttributes, UserCreationAttributes>
@@ -16,6 +13,7 @@ class User
   public password!: string;
   public refreshToken!: string | null;
   public isActive!: boolean;
+  public deletedAt!: Date | null; // Add this field for soft delete
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -40,6 +38,7 @@ User.init(
       validate: {
         notEmpty: true,
       },
+      comment: "User's username",
     },
     email: {
       type: DataTypes.STRING,
@@ -64,11 +63,17 @@ User.init(
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null,
+    },
   },
   {
     sequelize,
     modelName: "User",
     tableName: "users",
+    timestamps: true,
     hooks: {
       beforeCreate: async (user: User) => {
         if (user.password) {

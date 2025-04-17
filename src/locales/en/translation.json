@@ -26,6 +26,9 @@
       "logoutSuccess": "Logged out successfully",
       "oldPasswordInvalid": "Old password is invalid"
     },
+    "user": {
+      "userNotDeleted": "User not deleted"
+    },
     "server": {
       "internal": "Internal server error"
     }

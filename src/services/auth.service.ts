@@ -1,18 +1,16 @@
 import { ChangePasswordDto, LoginDto, RegisterDto } from "@/dtos/auth.dto";
-import {
-  BadRequestException,
-  HttpException,
-} from "@/exceptions/http.exception";
+import { HttpException } from "@/exceptions/http.exception";
 import { Role } from "@/models";
 import { RoleRepository } from "@/repositories/role.repository";
 import { UserRepository } from "@/repositories/user.repository";
 import { RoleAttributes, TokenPayload } from "@/types";
+import { IAuthService } from "@/types/services/auth.service.interface";
 import { generateTokens } from "@/utils/function";
 import { t } from "i18next";
-import { Op } from "sequelize";
 import jwt from "jsonwebtoken";
+import { Op } from "sequelize";
 
-export class AuthService {
+export class AuthService implements IAuthService {
   private userRepository: UserRepository;
   private roleRepository: RoleRepository;
 
@@ -51,10 +49,13 @@ export class AuthService {
     }
 
     // Get user roles
-    const roles = userRole ? [userRole.name] : [];
+    const roles = userRole ? [userRole] : [];
 
     // Generate tokens
-    const { accessToken, refreshToken } = generateTokens(user.id, roles);
+    const { accessToken, refreshToken } = generateTokens(
+      user.id,
+      roles.map((role) => role.name)
+    );
 
     // Save refresh token to database
     user.refreshToken = refreshToken;

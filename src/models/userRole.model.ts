@@ -1,8 +1,8 @@
 import sequelize from "@/config/database";
 import { UserRoleAttributes } from "@/types";
 import { DataTypes, Model } from "sequelize";
-import Role from "./Role";
-import User from "./User";
+import Role from "./role.model";
+import User from "./user.model";
 
 class UserRole
   extends Model<UserRoleAttributes, UserRoleAttributes>

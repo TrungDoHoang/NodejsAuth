@@ -40,7 +40,7 @@ export abstract class BaseRepository<T extends Model> {
     return [affectedCount, affectedRows];
   }
 
-  async delete(id: any): Promise<number> {
+  async delete(id: Pick<Attributes<T>, "id">): Promise<number> {
     return this.model.destroy({ where: { id } });
   }
 }

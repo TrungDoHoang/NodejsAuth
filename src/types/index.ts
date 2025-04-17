@@ -1,4 +1,5 @@
 import { Request } from "express";
+import { Optional } from "sequelize";
 
 export interface UserAttributes {
   id: string;
@@ -9,7 +10,11 @@ export interface UserAttributes {
   isActive: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+  deletedAt?: Date;
 }
+
+export interface UserCreationAttributes
+  extends Optional<UserAttributes, "id" | "isActive"> {}
 
 export interface RoleAttributes {
   id: string;
@@ -41,4 +46,9 @@ export interface TokenPayload {
 export interface Tokens {
   accessToken: string;
   refreshToken: string;
+}
+
+export interface IPaginationQuery {
+  page?: string;
+  perPage?: string;
 }

@@ -1,6 +1,8 @@
-import { User, Role } from "@/models";
+import { Role, User } from "@/models";
+import { UserCreationAttributes } from "@/types";
+import { Op, Optional } from "sequelize";
+import { NullishPropertiesOf } from "sequelize/types/utils";
 import { BaseRepository } from "./base.repository";
-import { Op } from "sequelize";
 
 export class UserRepository extends BaseRepository<typeof User.prototype> {
   constructor() {
@@ -68,5 +70,21 @@ export class UserRepository extends BaseRepository<typeof User.prototype> {
     roles: (typeof Role.prototype)[]
   ): Promise<void> {
     await (user as any).addRoles(roles);
+  }
+
+  async removeRoles(
+    user: typeof User.prototype,
+    roles: (typeof Role.prototype)[]
+  ): Promise<void> {
+    await (user as any).removeRoles(roles);
+  }
+
+  async create(
+    data: Optional<
+      UserCreationAttributes,
+      NullishPropertiesOf<UserCreationAttributes>
+    >
+  ): Promise<User> {
+    return this.model.create(data);
   }
 }
