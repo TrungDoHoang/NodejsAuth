@@ -1,5 +1,6 @@
 import { AuthController } from "@/controllers/auh.controller";
 import {
+  changePasswordSchema,
   loginSchema,
   refreshTokenSchema,
   registerSchema,
@@ -7,6 +8,7 @@ import {
 import { authenticate } from "@/middlewares/auth.middleware";
 import { validateRequest } from "@/middlewares/validateAuth.middleware";
 import express, { Router } from "express";
+import { z } from "zod";
 
 const router = Router();
 const authController = new AuthController();
@@ -33,7 +35,11 @@ const authenticatedRouter = express.Router();
 authenticatedRouter.use(authenticate as any);
 authenticatedRouter.get("/profile", authController.getProfile as any);
 authenticatedRouter.post("/logout", authController.logout as any);
-
-router.use(authenticatedRouter);
+authenticatedRouter.patch(
+  "/change-password",
+  validateRequest(changePasswordSchema as unknown as z.AnyZodObject) as any,
+  authController.changePassword as any
+);
+router.use("/me", authenticatedRouter);
 
 export default router;

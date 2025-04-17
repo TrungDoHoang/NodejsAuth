@@ -19,7 +19,7 @@ export abstract class BaseRepository<T extends Model> {
 
   async findById(
     id: number | string,
-    options?: Omit<NonNullFindOptions<Attributes<T>>, "where">
+    options?: Omit<FindOptions<Attributes<T>>, "where">
   ): Promise<T | null> {
     return this.model.findByPk(id, options);
   }

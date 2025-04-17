@@ -41,7 +41,7 @@ export class UserRepository extends BaseRepository<typeof User.prototype> {
   async findWithRoles(
     id: number | string
   ): Promise<typeof User.prototype | null> {
-    return this.model.findByPk(id, {
+    return this.findById(id, {
       include: {
         model: Role,
         through: { attributes: [] },
@@ -54,5 +54,19 @@ export class UserRepository extends BaseRepository<typeof User.prototype> {
     role: typeof Role.prototype
   ): Promise<void> {
     await (user as any).addRole(role);
+  }
+
+  async removeRole(
+    user: typeof User.prototype,
+    role: typeof Role.prototype
+  ): Promise<void> {
+    await (user as any).removeRole(role);
+  }
+
+  async addRoles(
+    user: typeof User.prototype,
+    roles: (typeof Role.prototype)[]
+  ): Promise<void> {
+    await (user as any).addRoles(roles);
   }
 }

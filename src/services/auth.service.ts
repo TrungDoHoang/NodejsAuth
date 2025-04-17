@@ -1,4 +1,4 @@
-import { LoginDto, RegisterDto } from "@/dtos/auth.dto";
+import { ChangePasswordDto, LoginDto, RegisterDto } from "@/dtos/auth.dto";
 import {
   BadRequestException,
   HttpException,
@@ -129,11 +129,13 @@ export class AuthService {
 
     const user = await this.userRepository.findById(userId, {
       attributes: { exclude: ["password", "refreshToken"] },
-      include: {
-        model: Role,
-        through: { attributes: [] },
-      },
-      rejectOnEmpty: true,
+      include: [
+        {
+          model: Role,
+          attributes: ["id", "name"],
+          through: { attributes: [] },
+        },
+      ],
     });
 
     if (!user) {
@@ -141,7 +143,8 @@ export class AuthService {
     }
 
     // Get user roles
-    const roles = (user as any).Roles?.map((role: any) => role.name) || [];
+    const roles =
+      (user as any).Roles?.map((role: RoleAttributes) => role) || [];
 
     return {
       id: user.id,
@@ -154,23 +157,20 @@ export class AuthService {
     };
   }
 
-  async logout(refreshToken: string) {
-    if (!refreshToken) {
-      throw new BadRequestException(t("errors.auth.refreshTokenRequired"));
-    }
-
+  async logout(userId: number) {
     // Find user with this refresh token
     const user = await this.userRepository.findOne({
-      where: { refreshToken },
+      where: { id: userId },
       // rejectOnEmpty: true
     });
 
-    if (user) {
-      // Clear refresh token
-      user.refreshToken = null;
-      await user.save();
+    if (!user) {
+      throw new HttpException(404, t("errors.auth.userNotFoundOrInactive"));
     }
 
+    // Clear refresh token
+    user.refreshToken = null;
+    await user.save();
     return true;
   }
 
@@ -212,5 +212,26 @@ export class AuthService {
       accessToken: newTokens.accessToken,
       refreshToken: newTokens.refreshToken,
     };
+  }
+
+  async changePassword(userId: number, changePasswordDto: ChangePasswordDto) {
+    const { oldPassword, newPassword } = changePasswordDto;
+
+    const user = await this.userRepository.findById(userId);
+
+    if (!user) {
+      throw new HttpException(404, t("errors.auth.userNotFoundOrInactive"));
+    }
+
+    const isPasswordValid = await user.isValidPassword(oldPassword);
+
+    if (!isPasswordValid) {
+      throw new HttpException(401, t("errors.auth.oldPasswordInvalid"));
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    return true;
   }
 }

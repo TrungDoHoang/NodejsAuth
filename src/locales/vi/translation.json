@@ -9,7 +9,9 @@
       "maxLength": "{{field}} không được vượt quá {{max}} ký tự",
       "invalidField": "{{field}} không hợp lệ",
       "passwordRequirements": "Mật khẩu phải có ít nhất 6 ký tự",
-      "unexpectedFields": "Các trường không được phép: {{fields}}"
+      "unexpectedFields": "Các trường không được phép: {{fields}}",
+      "passwordConfirmation": "Mật khẩu và xác nhận mật khẩu phải giống nhau",
+      "newPasswordSameAsOld": "Mật khẩu mới không được trùng với mật khẩu cũ"
     },
     "auth": {
       "missingToken": "Thiếu token xác thực",
@@ -21,7 +23,8 @@
       "userAlreadyExists": "Tên người dùng hoặc email đã tồn tại",
       "invalidCredentials": "Tên người dùng hoặc mật khẩu không hợp lệ",
       "refreshTokenRequired": "Refresh token là bắt buộc",
-      "logoutSuccess": "Đăng xuất thành công"
+      "logoutSuccess": "Đăng xuất thành công",
+      "oldPasswordInvalid": "Mật khẩu cũ không hợp lệ"
     },
     "server": {
       "internal": "Lỗi máy chủ nội bộ"
