@@ -5,10 +5,17 @@ export interface IUserService {
   /**
    * Retrieves a paginated list of users from the system.
    * @param perPage The number of users to return per page.
-   * @param page The page number of results to retrieve.
+   * @param page The page number of user results to retrieve.
+   * @param sortBy The field to sort the users by.
+   * @param sortDirection The direction of sorting (e.g., 'asc' or 'desc').
    * @returns A promise that resolves to an array of user objects for the specified page.
    */
-  listUsers(perPage: number, page: number): Promise<User[]>;
+  listUsers(
+    perPage: number,
+    page: number,
+    sortBy: string,
+    sortDirection: string
+  ): Promise<User[]>;
 
   /**
    * Retrieves a specific user by their unique identifier.
@@ -36,9 +43,16 @@ export interface IUserService {
    * Retrieves a paginated list of deleted users from the system.
    * @param perPage The number of deleted users to return per page.
    * @param page The page number of deleted user results to retrieve.
+   * @param sortBy The field to sort the deleted users by.
+   * @param sortDirection The direction of sorting (e.g., 'asc' or 'desc').
    * @returns A promise that resolves to an array of deleted user objects for the specified page.
    */
-  usersDeleted(perPage: number, page: number): Promise<User[]>;
+  usersDeleted(
+    perPage: number,
+    page: number,
+    sortBy: string,
+    sortDirection: string
+  ): Promise<User[]>;
 
   /**
    * Restores a previously deleted user to the system.
@@ -46,6 +60,25 @@ export interface IUserService {
    * @returns A promise that resolves to a boolean indicating whether the user was successfully restored.
    */
   restoreUser(id: string): Promise<boolean>;
+
+  /**
+   * Searches for users based on a keyword search with optional pagination and sorting.
+   * @param keywordSearch The search term to find users by username, email, or other searchable fields.
+   * @param perPage The number of users to return per page.
+   * @param page The page number of search results to retrieve.
+   * @param sortBy The field to sort the search results by.
+   * @param sortDirection The direction of sorting (e.g., 'asc' or 'desc').
+   * @param isSearchDeleted Optional flag to include deleted users in the search results.
+   * @returns A promise that resolves to an array of users matching the search criteria.
+   */
+  searchUsers(
+    keywordSearch: string,
+    perPage: number,
+    page: number,
+    sortBy: string,
+    sortDirection: string,
+    isSearchDeleted?: boolean
+  ): Promise<User[]>;
 }
 export interface IUser {
   id: string;

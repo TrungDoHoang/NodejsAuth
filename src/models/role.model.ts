@@ -19,7 +19,7 @@ class Role
 Role.init(
   {
     id: {
-      type: DataTypes.UUID,
+      type: DataTypes.UUIDV4,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },

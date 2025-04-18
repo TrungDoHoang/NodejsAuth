@@ -1,11 +1,10 @@
 import sequelize from "@/config/database";
-import { Role, User } from "@/models";
 import dotenv from "dotenv";
 import { initializeData } from "./init-data";
 
 dotenv.config();
 
-const syncDatabase = async () => {
+export const syncDatabase = async () => {
   try {
     await sequelize.sync({ alter: true });
     console.log("Database synchronized");

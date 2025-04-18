@@ -1,10 +1,15 @@
+import { SORT_DIRECTION } from "@/constants";
+import { SearchDto } from "@/dtos/index.dto";
 import { UserService } from "@/services/user.service";
-import { IPaginationQuery } from "@/types";
+import { IParamListQuery } from "@/types";
 import { Request, Response } from "express";
 import i18next from "i18next";
 
 export class UserController {
+  // define services
   private userService: UserService;
+
+  // define constructor and inject services
   constructor() {
     this.userService = new UserService();
   }
@@ -18,9 +23,17 @@ export class UserController {
    */
   async index(req: Request, res: Response) {
     try {
-      const perPage = parseInt((req.query as IPaginationQuery).perPage) || 10;
-      const page = parseInt((req.query as IPaginationQuery).page) || 1;
-      const users = await this.userService.listUsers(perPage, page);
+      const perPage = parseInt((req.query as IParamListQuery).perPage) || 10;
+      const page = parseInt((req.query as IParamListQuery).page) || 1;
+      const sortBy = (req.query as IParamListQuery).sortBy || "createdAt";
+      const sortDirection =
+        (req.query as IParamListQuery).sortDirection || SORT_DIRECTION.DESC;
+      const users = await this.userService.listUsers(
+        perPage,
+        page,
+        sortBy,
+        sortDirection
+      );
       res.status(200).json({
         page,
         perPage,
@@ -123,9 +136,52 @@ export class UserController {
    */
   async usersDeleted(req: Request, res: Response) {
     try {
-      const perPage = parseInt((req.query as IPaginationQuery).perPage) || 10;
-      const page = parseInt((req.query as IPaginationQuery).page) || 1;
-      const users = await this.userService.usersDeleted(perPage, page);
+      const perPage = parseInt((req.query as IParamListQuery).perPage) || 10;
+      const page = parseInt((req.query as IParamListQuery).page) || 1;
+      const sortBy = (req.query as IParamListQuery).sortBy || "createdAt";
+      const sortDirection =
+        (req.query as IParamListQuery).sortDirection || SORT_DIRECTION.DESC;
+      const users = await this.userService.usersDeleted(
+        perPage,
+        page,
+        sortBy,
+        sortDirection
+      );
+      res.status(200).json({
+        page,
+        perPage,
+        data: users,
+      });
+    } catch (error) {
+      if (error.status) {
+        res.status(error.status).json({ error: error.message });
+      }
+      res.status(500).json({ error: i18next.t("error.server.internal") });
+    }
+  }
+
+  /**
+   * Searches users based on a keyword search with pagination and sorting options
+   * @param req Express request object containing search parameters and pagination query
+   * @param res Express response object for sending the search results
+   * Returns a paginated list of users matching the search criteria with page and perPage metadata
+   * Handles potential errors and returns appropriate HTTP status codes
+   */
+  async searchUsers(req: Request, res: Response) {
+    try {
+      const perPage = parseInt((req.query as IParamListQuery).perPage) || 10;
+      const page = parseInt((req.query as IParamListQuery).page) || 1;
+      const sortBy = (req.query as IParamListQuery).sortBy || "createdAt";
+      const sortDirection =
+        (req.query as IParamListQuery).sortDirection || SORT_DIRECTION.DESC;
+      const keywordSearch = (req.body as SearchDto).keywordSearch;
+      const users = await this.userService.searchUsers(
+        keywordSearch,
+        perPage,
+        page,
+        sortBy,
+        sortDirection
+      );
       res.status(200).json({
         page,
         perPage,

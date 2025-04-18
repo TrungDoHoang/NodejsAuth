@@ -48,7 +48,9 @@ export interface Tokens {
   refreshToken: string;
 }
 
-export interface IPaginationQuery {
+export interface IParamListQuery {
   page?: string;
   perPage?: string;
+  sortBy?: string;
+  sortDirection?: string;
 }
